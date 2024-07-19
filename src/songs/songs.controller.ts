@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
 
 @Controller('songs')
 export class SongsController {
@@ -12,6 +12,14 @@ export class SongsController {
   }
   @Post(':id')
   create() {
-    return 'creating a song';
+    return 'creating a song enpoint';
+  }
+  @Put(':id')
+  updateOne() {
+    return 'update song by id song';
+  }
+  @Delete(':id')
+  deleteOne() {
+    return 'delete song by id song';
   }
 }
