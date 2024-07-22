@@ -1,36 +1,54 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Delete,
   Get,
   HttpException,
   HttpStatus,
-  Inject,
   Param,
   ParseIntPipe,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { SongsService } from './songs.service';
 import { CreateSongDto } from './DTO/create-song-dto';
-import { Connection } from 'src/common/constants/connection';
+// import { Connection } from 'src/common/constants/connection';
+import { Song } from './song.entity';
+import { UpdateSongDTO } from './DTO/update-song-dto';
+import { UpdateResult } from 'typeorm';
+import { Pagination } from 'nestjs-typeorm-paginate';
 
 @Controller('songs')
 export class SongsController {
   constructor(
     private songsServive: SongsService,
-    @Inject('CONNECTION') private connection: Connection,
+    // @Inject('CONNECTION') private connection: Connection,
   ) {
-    console.log(`this is connection string`, this.connection);
+    // console.log(`this is connection string`, this.connection);
   }
+
+  //create songs
   @Post()
   create(@Body() createSongDto: CreateSongDto) {
-    return this.songsServive.create(createSongDto);
+    return this.songsServive.createSong(createSongDto);
   }
+
+  //get all songs
   @Get()
-  findAll() {
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe)
+    page: number = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe)
+    limit: number = 10,
+  ): Promise<Pagination<Song>> {
     try {
-      return this.songsServive.findAll();
+      limit = limit > 100 ? 100 : limit;
+      return this.songsServive.paginate({
+        page,
+        limit,
+      });
     } catch (err) {
       console.error(err);
       throw new HttpException(
@@ -42,6 +60,8 @@ export class SongsController {
       );
     }
   }
+
+  //get a song by id
   @Get(':id')
   findOne(
     @Param(
@@ -49,15 +69,35 @@ export class SongsController {
       new ParseIntPipe({ errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE }),
     )
     id: number,
-  ) {
-    return `fetching one song by Id ${typeof id}`;
+  ): Promise<Song> {
+    try {
+      const data = this.songsServive.findOneSong(id);
+      if (!data) {
+        throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+      }
+      return data;
+    } catch (err) {
+      console.error(err);
+      throw new HttpException(
+        'Internal Server Error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        { cause: err },
+      );
+    }
   }
+
+  //update a song by id
   @Put(':id')
-  updateOne() {
-    return 'update song by id song';
+  updateOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateSongDtO: UpdateSongDTO,
+  ): Promise<UpdateResult> {
+    return this.songsServive.updateSong(id, updateSongDtO);
   }
+
+  //delete a song by id
   @Delete(':id')
-  deleteOne() {
-    return 'delete song by id song';
+  deleteOne(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.songsServive.deleteSong(id);
   }
 }

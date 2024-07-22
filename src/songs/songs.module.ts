@@ -1,9 +1,12 @@
 import { Module } from '@nestjs/common';
 import { SongsController } from './songs.controller';
 // import { SongsService } from './songs.service';
-import { connection } from 'src/common/constants/connection';
+// import { connection } from 'src/common/constants/connection';
 import { SongsService } from './songs.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Song } from './song.entity';
 
+// Mock Service
 // const mockSongService = {
 //   findAll() {
 //     return [
@@ -18,6 +21,7 @@ import { SongsService } from './songs.service';
 // };
 
 @Module({
+  imports: [TypeOrmModule.forFeature([Song])],
   controllers: [SongsController],
   providers: [
     SongsService,
@@ -34,10 +38,10 @@ import { SongsService } from './songs.service';
     // },
 
     //non class based provider
-    {
-      provide: 'CONNECTION',
-      useValue: connection,
-    },
+    // {
+    //   provide: 'CONNECTION',
+    //   useValue: connection,
+    // },
   ],
 })
 export class SongsModule {}

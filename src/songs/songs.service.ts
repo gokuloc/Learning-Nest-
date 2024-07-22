@@ -1,16 +1,61 @@
 import { Injectable } from '@nestjs/common';
+import { CreateSongDto } from './DTO/create-song-dto';
+import { Song } from './song.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository, UpdateResult } from 'typeorm';
+import { UpdateSongDTO } from './DTO/update-song-dto';
+import {
+  Pagination,
+  paginate,
+  IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class SongsService {
+  constructor(
+    @InjectRepository(Song) private songRepository: Repository<Song>,
+  ) {}
   private readonly songs = [];
 
-  create(song) {
-    this.songs.push(song);
-    return this.songs;
+  async createSong(songDTO: CreateSongDto): Promise<Song> {
+    const song = new Song();
+    song.title = songDTO.title;
+    song.artists = songDTO.artists;
+    song.releasedDate = songDTO.releaseDate;
+    song.lyrics = songDTO.lyrics;
+    song.duration = songDTO.duration;
+
+    return await this.songRepository.save(song);
   }
 
-  findAll() {
-    throw new Error('error while fetching data...');
-    return this.songs;
+  findAllSong(): Promise<Song[]> {
+    return this.songRepository.find();
+  }
+
+  findOneSong(id: number): Promise<Song> {
+    return this.songRepository.findOneBy({ id });
+  }
+
+  async deleteSong(id: number): Promise<void> {
+    await this.songRepository.delete(id);
+  }
+
+  async updateSong(
+    id: number,
+    recordToUpdate: UpdateSongDTO,
+  ): Promise<UpdateResult> {
+    return this.songRepository.update(id, recordToUpdate);
+  }
+
+  async paginate(options: IPaginationOptions): Promise<Pagination<Song>> {
+    return paginate<Song>(this.songRepository, options);
+  }
+
+  async paginatewithSorting(
+    options: IPaginationOptions,
+  ): Promise<Pagination<Song>> {
+    const queryBuilder = this.songRepository.createQueryBuilder('c');
+    queryBuilder.orderBy('c.releasedDate', 'DESC');
+    return paginate(queryBuilder, options);
   }
 }
