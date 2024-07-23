@@ -17,7 +17,7 @@ import { CreateSongDto } from './DTO/create-song-dto';
 // import { Connection } from 'src/common/constants/connection';
 import { Song } from './song.entity';
 import { UpdateSongDTO } from './DTO/update-song-dto';
-import { UpdateResult } from 'typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
 import { Pagination } from 'nestjs-typeorm-paginate';
 
 @Controller('songs')
@@ -97,7 +97,7 @@ export class SongsController {
 
   //delete a song by id
   @Delete(':id')
-  deleteOne(@Param('id', ParseIntPipe) id: number): Promise<void> {
+  deleteOne(@Param('id', ParseIntPipe) id: number): Promise<DeleteResult> {
     return this.songsServive.deleteSong(id);
   }
 }
