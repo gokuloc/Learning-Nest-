@@ -13,7 +13,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { Song } from './songs/song.entity';
 import { User } from './users/user.entity';
-import { Artist } from './users/artirt.entity';
+import { Artist } from './artists/artirt.entity';
+import { Playlist } from './playlists/playlist.entity';
+import { PlaylistsModule } from './playlists/playlists.module';
 
 const devConfig = { port: 3000 };
 const prodConfig = { port: 4000 };
@@ -27,10 +29,11 @@ const prodConfig = { port: 4000 };
       username: 'postgres',
       password: 'postgres',
       database: 'Testing',
-      entities: [Song, User, Artist],
+      entities: [Song, User, Artist, Playlist],
       synchronize: true,
     }),
     SongsModule,
+    PlaylistsModule,
   ],
   controllers: [AppController],
   providers: [
