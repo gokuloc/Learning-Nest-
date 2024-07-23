@@ -16,6 +16,8 @@ import { User } from './users/user.entity';
 import { Artist } from './artists/artirt.entity';
 import { Playlist } from './playlists/playlist.entity';
 import { PlaylistsModule } from './playlists/playlists.module';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
 
 const devConfig = { port: 3000 };
 const prodConfig = { port: 4000 };
@@ -28,12 +30,14 @@ const prodConfig = { port: 4000 };
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'Testing',
+      database: 'Nestjs_demo',
       entities: [Song, User, Artist, Playlist],
       synchronize: true,
     }),
     SongsModule,
     PlaylistsModule,
+    AuthModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [
