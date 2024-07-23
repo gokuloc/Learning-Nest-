@@ -27,8 +27,8 @@ export class SongsService {
     song.lyrics = songDTO.lyrics;
     song.duration = songDTO.duration;
 
-    const artists = await this.artistRepository.findBy(songDTO.artists);
-    song.artist = artists;
+    const artists = await this.artistRepository.findByIds(songDTO.artists);
+    song.artists = artists;
 
     return await this.songRepository.save(song);
   }

@@ -3,7 +3,7 @@ import { Playlist } from 'src/playlists/playlist.entity';
 import {
   Column,
   Entity,
-  JoinColumn,
+  JoinTable,
   ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -17,8 +17,8 @@ export class Song {
   @Column()
   title: string;
 
-  @Column('varchar', { array: true })
-  artists: string[];
+  // @Column('varchar', { array: true })
+  // artists: string[];
 
   @Column({ type: 'date' })
   releasedDate: Date;
@@ -29,10 +29,11 @@ export class Song {
   @Column({ type: 'text' })
   lyrics: string;
 
-  @ManyToMany(() => Artist, (artist) => artist.song)
-  @JoinColumn({ name: 'song_artists' })
-  artist: Artist[];
+  @ManyToMany(() => Artist, (artist) => artist.songs, { cascade: true })
+  @JoinTable({ name: 'songs_artists' })
+  artists: Artist[];
 
   @ManyToOne(() => Playlist, (playlist) => playlist.song)
   playList: Playlist;
+  song: Artist;
 }
