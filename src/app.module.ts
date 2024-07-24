@@ -31,7 +31,7 @@ const prodConfig = { port: 4000 };
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'Nestjs_demo',
+      database: 'Nestjs_demo_1',
       entities: [Song, User, Artist, Playlist],
       synchronize: true,
     }),
