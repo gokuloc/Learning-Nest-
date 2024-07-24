@@ -11,30 +11,18 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { DevConfigService } from './common/providers/DevConfigService';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { Song } from './songs/song.entity';
-import { User } from './users/user.entity';
-import { Artist } from './artists/artirt.entity';
-import { Playlist } from './playlists/playlist.entity';
 import { PlaylistsModule } from './playlists/playlists.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ArtitsModule } from './artists/artirts.module';
+import { dataSourceOptions } from 'db/data-source';
 
 const devConfig = { port: 3000 };
 const prodConfig = { port: 4000 };
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'Nestjs_demo_1',
-      entities: [Song, User, Artist, Playlist],
-      synchronize: true,
-    }),
+    TypeOrmModule.forRoot(dataSourceOptions),
     SongsModule,
     PlaylistsModule,
     AuthModule,
