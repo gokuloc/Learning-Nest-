@@ -1,0 +1,18 @@
+[33m6ce6912[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m implements the jwt authentication
+[33m10a5c86[m auth/loin implement
+[33m2e57b48[m implement the auth/signup and use bcryptjs lib
+[33m0b665c6[m playlist api
+[33m5777da9[m create Artist, Playlist and User entity, Playlist module,services and controller
+[33mfabf2ee[m complete the basic crud operation using database and started working on One to One relationship
+[33mc8628da[m connect database and perform crud using typeorm repository
+[33m4dd700a[m Class based provider class Added
+[33m736ed77[m useFactory provider and non service based provider
+[33m64c373c[m non class based providers
+[33m7d93be3[m used useValue provider for mockServices
+[33m82a4e4e[m DTO and validation changes
+[33m414006e[m added the Error handler
+[33m736e68d[m added a logger middleware
+[33m124c6b0[m added validation and DTO to controller
+[33m66a2be5[m add nest service and added new methods through service
+[33m828f606[m setup the basic crud api in nestjs
+[33m98e816d[m initial setup and started learning the restful api in nest
