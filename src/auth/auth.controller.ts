@@ -82,4 +82,10 @@ export class AuthController {
       user: req.user,
     };
   }
+
+  //testing the env file config
+  @Get('test')
+  testEnvFile() {
+    return this.authService.getEnvFile();
+  }
 }

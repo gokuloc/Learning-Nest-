@@ -8,6 +8,7 @@ import { Enable2FAType, PayloadTypes } from './types/types';
 import * as speakeasy from 'speakeasy';
 import { UpdateResult } from 'typeorm';
 import { User } from 'src/users/user.entity';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -15,6 +16,7 @@ export class AuthService {
     private userService: UsersService,
     private jwtService: JwtService,
     private artistsService: ArtistsService,
+    private configService: ConfigService,
   ) {}
 
   async login(
@@ -94,5 +96,10 @@ export class AuthService {
 
   async validateUserByApiKey(apiKey: string): Promise<User> {
     return this.userService.findByApiKey(apiKey);
+  }
+
+  //testing the env file config
+  getEnvFile() {
+    return ` env file successfully configured, the port is : ${this.configService.get<number>('port')}`;
   }
 }
