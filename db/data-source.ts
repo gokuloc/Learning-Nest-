@@ -6,8 +6,8 @@ export const dataSourceOptions: DataSourceOptions = {
   port: 5432,
   username: 'postgres',
   password: 'postgres',
-  database: 'Nestjs_demo_1',
-  entities: ['dist/**/*.entity.ts'],
+  database: 'nest_api',
+  entities: ['dist/**/*.entity.js'],
   synchronize: false,
   migrations: ['dist/db/migrations/*.js'],
 };
