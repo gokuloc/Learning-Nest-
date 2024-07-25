@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { Playlist } from 'src/playlists/playlist.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
@@ -7,15 +8,31 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ApiProperty({
+    example: 'Jane',
+    description: 'Provide the first name of the user',
+  })
   @Column()
   firstName: string;
 
+  @ApiProperty({
+    example: 'Deo',
+    description: 'Provide the last name of the user',
+  })
   @Column()
   lastName: string;
 
+  @ApiProperty({
+    example: 'jane.doe@example.com',
+    description: 'Provide a valid email address',
+  })
   @Column({ unique: true })
   email: string;
 
+  @ApiProperty({
+    example: 'password123',
+    description: 'Provide a password of at least 8 characters',
+  })
   @Column()
   @Exclude()
   password: string;

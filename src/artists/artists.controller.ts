@@ -1,4 +1,12 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('artists')
-export class ArtistsController {}
+@ApiTags('Artist Routes')
+export class ArtistsController {
+  constructor() {}
+  @Get()
+  getArtists() {
+    return 'hello this is artist routes';
+  }
+}

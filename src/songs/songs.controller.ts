@@ -22,8 +22,10 @@ import { UpdateSongDTO } from './DTO/update-song-dto';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { JwtArtistsGuard } from 'src/auth/jwt-artist-guard';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('songs')
+@ApiTags('Songs Routes')
 export class SongsController {
   constructor(
     private songsServive: SongsService,
