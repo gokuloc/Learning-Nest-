@@ -63,7 +63,7 @@ export class AppModule implements NestModule {
     );
   }
   configure(consumer: MiddlewareConsumer) {
-    // consumer.apply(LoggerMiddleware).forRoutes('songs'); // options 1
+    consumer.apply(LoggerMiddleware).forRoutes('songs'); // options 1
     consumer
       .apply(LoggerMiddleware)
       .forRoutes({ path: 'songs', method: RequestMethod.POST }); // options 2

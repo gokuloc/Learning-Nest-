@@ -22,6 +22,9 @@ export class User {
   @Column()
   lastName: string;
 
+  @Column()
+  username: string;
+
   @ApiProperty({
     example: 'jane.doe@example.com',
     description: 'Provide a valid email address',
