@@ -30,6 +30,10 @@ export class AuthController {
     status: 201,
     description: 'It will return the user in the response',
   })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad request',
+  })
   signup(
     @Body()
     userDTO: CreateUserDTO,
@@ -42,6 +46,10 @@ export class AuthController {
   @ApiResponse({
     status: 200,
     description: 'It will give you the access_token in the response',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request',
   })
   login(
     @Body()
