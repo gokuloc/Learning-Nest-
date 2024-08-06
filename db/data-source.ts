@@ -21,6 +21,7 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
       entities: ['dist/**/*.entity.js'],
       synchronize: false,
       migrations: ['dist/db/migrations/*.js'],
+      ssl: { rejectUnauthorized: false },
     };
   },
 };
@@ -35,6 +36,7 @@ export const dataSourceOptions: DataSourceOptions = {
   entities: ['dist/**/*.entity.js'],
   synchronize: false,
   migrations: ['dist/db/migrations/*.js'],
+  ssl: { rejectUnauthorized: false },
 };
 
 const dataSource = new DataSource(dataSourceOptions);

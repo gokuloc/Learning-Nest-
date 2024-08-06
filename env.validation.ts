@@ -35,11 +35,11 @@ class EnvironmnetVariables {
 }
 
 export function validate(config: Record<string, unknown>) {
-  console.log('config : ', config);
+  // console.log('config : ', config);
   const validatedConfig = plainToInstance(EnvironmnetVariables, config, {
     enableImplicitConversion: true,
   });
-  console.log('validatedConfig : ', validatedConfig);
+  // console.log('validatedConfig : ', validatedConfig);
   const errors = validateSync(validatedConfig, {
     skipMissingProperties: false,
   });
