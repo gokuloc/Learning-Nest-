@@ -21,7 +21,7 @@ import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { validate } from 'env.validation';
 
-const devConfig = { port: 3000 };
+const devConfig = { port: 3001 };
 const prodConfig = { port: 4000 };
 
 @Module({
@@ -50,7 +50,7 @@ const prodConfig = { port: 4000 };
     {
       provide: 'CONFIG',
       useFactory: () => {
-        return process.env.NODE_ENV === 'DEVELOPMENT' ? devConfig : prodConfig;
+        return process.env.NODE_ENV === 'development' ? devConfig : prodConfig;
       },
     },
   ],
