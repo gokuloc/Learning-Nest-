@@ -7,7 +7,9 @@ export class AppService {
     private devConfigService: DevConfigService,
     @Inject('CONFIG') private config: { port: string },
   ) {}
-  getHello(): string {
-    return `App is Healthy and running ${this.devConfigService.getDBHOST()} port : ${this.config.port}`;
+  getHello(): Record<string, any> {
+    return {
+      message: `App is Healthy and running ${this.devConfigService.getDBHOST()} port : ${this.config.port}`,
+    };
   }
 }
