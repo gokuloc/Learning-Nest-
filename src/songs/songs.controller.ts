@@ -23,6 +23,7 @@ import { DeleteResult, UpdateResult } from 'typeorm';
 import { Pagination } from 'nestjs-typeorm-paginate';
 import { JwtArtistsGuard } from 'src/auth/jwt-artist-guard';
 import { ApiTags } from '@nestjs/swagger';
+import { PaginateFilterDto } from './DTO/filter-song.dto';
 
 @Controller('songs')
 @ApiTags('Songs Routes')
@@ -49,13 +50,17 @@ export class SongsController {
     page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe)
     limit: number = 10,
+    @Body() filter: PaginateFilterDto,
   ): Promise<Pagination<Song>> {
     try {
       limit = limit > 100 ? 100 : limit;
-      return this.songsServive.paginate({
-        page,
-        limit,
-      });
+      return this.songsServive.paginateWithSortingAndFiltering(
+        {
+          page,
+          limit,
+        },
+        filter,
+      );
     } catch (err) {
       console.error(err);
       throw new HttpException(

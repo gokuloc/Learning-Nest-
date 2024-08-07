@@ -6,6 +6,11 @@ import { CreateUserDTO } from './DTO/create-user-dto';
 import * as bcrypt from 'bcryptjs';
 import { LoginDTO } from 'src/auth/DTO/login-dto';
 import { v4 as uudi4 } from 'uuid';
+import {
+  IPaginationOptions,
+  Pagination,
+  paginate,
+} from 'nestjs-typeorm-paginate';
 @Injectable()
 export class UsersService {
   constructor(
@@ -31,6 +36,15 @@ export class UsersService {
       throw new UnauthorizedException('Coudl not find user');
     }
     return user;
+  }
+
+  async findAllUser(): Promise<User[]> {
+    const user = await this.userRepository.find();
+    return user;
+  }
+
+  async paginate(options: IPaginationOptions): Promise<Pagination<User>> {
+    return paginate<User>(this.userRepository, options);
   }
 
   async findById(id: number): Promise<User> {

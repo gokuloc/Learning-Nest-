@@ -59,8 +59,54 @@ export class SongsService {
   async paginatewithSorting(
     options: IPaginationOptions,
   ): Promise<Pagination<Song>> {
-    const queryBuilder = this.songRepository.createQueryBuilder('c');
+    const queryBuilder = this.songRepository.createQueryBuilder('song');
     queryBuilder.orderBy('c.releasedDate', 'DESC');
+    return paginate(queryBuilder, options);
+  }
+
+  async paginateWithSortingAndFiltering(
+    options: IPaginationOptions,
+    filter: {
+      title?: string;
+      lyrics?: string;
+      artistId?: number;
+      startDate?: string;
+      endDate?: string;
+      order?: number;
+    },
+  ): Promise<Pagination<Song>> {
+    const queryBuilder = this.songRepository.createQueryBuilder('song');
+
+    if (filter.title) {
+      queryBuilder.andWhere('song.title ILIKE :title', {
+        title: `%${filter.title}%`,
+      });
+    }
+
+    if (filter.lyrics) {
+      queryBuilder.andWhere('LOWER(song.lyrics) ILIKE :lyrics', {
+        lyrics: `%${filter.lyrics.toLowerCase()}%`,
+      });
+    }
+
+    if (filter.artistId) {
+      queryBuilder
+        .leftJoin('song.artists', 'artist')
+        .andWhere('artist.id = :artistId', { artistId: filter.artistId });
+    }
+
+    if (filter.startDate && filter.endDate) {
+      queryBuilder.andWhere(
+        'song.releasedDate BETWEEN :startDate AND :endDate',
+        {
+          startDate: filter.startDate,
+          endDate: filter.endDate,
+        },
+      );
+    }
+    const order = filter.order === -1 ? 'DESC' : 'ASC';
+    queryBuilder.orderBy('song.releasedDate', order);
+
     return paginate(queryBuilder, options);
   }
 }
