@@ -20,6 +20,7 @@ import { SeedModule } from './seed/seed.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { validate } from 'env.validation';
+import { UploadModule } from './upload/upload.module';
 
 const devConfig = { port: 3001 };
 const prodConfig = { port: 4000 };
@@ -39,6 +40,7 @@ const prodConfig = { port: 4000 };
     UsersModule,
     ArtitsModule,
     SeedModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [

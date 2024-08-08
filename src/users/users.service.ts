@@ -47,6 +47,37 @@ export class UsersService {
     return paginate<User>(this.userRepository, options);
   }
 
+  async paginateWithFilterAndSorting(
+    options: IPaginationOptions,
+    filter: {
+      firstName?: string;
+      lastName?: string;
+      email?: string;
+    },
+  ): Promise<Pagination<User>> {
+    const queryBuilder = this.userRepository.createQueryBuilder('users');
+    // console.log(filter);
+    if (filter.firstName) {
+      queryBuilder.orWhere('users.firstName ILIKE :firstName', {
+        firstName: `%${filter.firstName}%`,
+      });
+    }
+
+    if (filter.lastName) {
+      queryBuilder.orWhere('users.lastName ILIKE :lastName', {
+        lastName: `%${filter.lastName}%`,
+      });
+    }
+
+    if (filter.email) {
+      queryBuilder.orWhere('users.email ILIKE :email', {
+        email: `%${filter.email}%`,
+      });
+    }
+    // console.log(queryBuilder);
+    return paginate(queryBuilder, options);
+  }
+
   async findById(id: number): Promise<User> {
     return this.userRepository.findOneBy({ id: id });
   }
